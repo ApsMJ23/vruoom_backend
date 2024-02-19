@@ -16,13 +16,15 @@ logger = logging.getLogger(__name__)
 
 @api_view(['POST'])
 def login(request):
-    user = get_object_or_404(User, username=request.data['username'])
-    logger.info('User: %s', user)
-    if not user.check_password(request.data['password']):
-        return Response({'error':'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
-    token,created = Token.objects.get_or_create(user=user)
-    serializer = UserSerializer(instance=user)
-    return Response({'token': token.key}, status=status.HTTP_200_OK  )
+    try:
+        user  = User.objects.get(email=request.data['email'])
+        if not user.check_password(request.data['password']):
+            return Response({'error':'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+        token,created = Token.objects.get_or_create(user=user)
+        serializer = UserSerializer(instance=user)
+        return Response({'token': token.key}, status=status.HTTP_200_OK  )
+    except User.DoesNotExist:
+        return Response({'error':'User Not Found'}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def signup(request):
