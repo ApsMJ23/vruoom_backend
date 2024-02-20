@@ -22,7 +22,7 @@ def login(request):
             return Response({'error':'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
         token,created = Token.objects.get_or_create(user=user)
         serializer = UserSerializer(instance=user)
-        return Response({'token': token.key}, status=status.HTTP_200_OK  )
+        return Response({'token': token.key,'isActive':user.is_staff}, status=status.HTTP_200_OK  )
     except User.DoesNotExist:
         return Response({'error':'User Not Found'}, status=status.HTTP_400_BAD_REQUEST)
 
