@@ -19,4 +19,5 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/',include('cerberus.urls')),
+    path('dionysus/',include('dionysus.urls')),
 ]

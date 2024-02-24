@@ -13,7 +13,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-
 @api_view(['POST'])
 def login(request):
     try:
