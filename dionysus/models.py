@@ -26,6 +26,7 @@ def generate_new_vruoom_admin_id(existing_user_ids):
     return new_id
 
 class Client(models.Model):
+    id = models.AutoField(primary_key=True)
     businessName = models.CharField(max_length=100)
     vruoomAdminId = models.ForeignKey(User,on_delete=models.PROTECT)
     address = models.CharField(max_length=100)
@@ -35,9 +36,28 @@ class Client(models.Model):
     YearOfEstablishment = models.DateField()
     TypeOfFirm = models.CharField(max_length=100)
     TypeOfSite = models.CharField(max_length=100)
+    AverageSaleVolumeMS = models.FloatField()
+    AverageSaleVolumeHSD = models.FloatField()
+    AutomationType = models.CharField(max_length=100)
+    HoursOfOperation = models.CharField(max_length=100)
 
     def __str__(self):
         return self.businessName
+    
+class Employees(models.Model):
+    id = models.AutoField(primary_key=True)
+    clientId = models.ForeignKey(Client,on_delete=models.PROTECT)
+    name = models.CharField(max_length=100)
+    role = models.CharField(max_length=100)
+    mobileNo = models.CharField(max_length=100)
+    whatsappNo = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    address = models.CharField(max_length=100)
+    salary = models.FloatField()
+    dateOfJoining = models.DateField()
+    dateOfLeaving = models.DateField()
+    def __str__(self):
+        return self.name
 
 
 
